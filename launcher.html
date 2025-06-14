@@ -1,0 +1,617 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Future Ready City Planner</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      position: relative;
+      z-index: 100;
+    }
+
+    .help-snapshot {
+      display: flex;
+      gap: 1rem;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #help-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    #snapshot-btn {
+      background-color: #2196F3;
+      color: white;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      margin: 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    #hero-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .hero-content {
+      position: relative;
+      color: white;
+      z-index: 1;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+    }
+
+    .hero-content h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-content p {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background-color: #FF5722;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .cta-button:hover {
+      background-color: #E64A19;
+    }
+
+    iframe {
+      display: none;
+      width: 100%;
+      height: 100vh;
+      border: none;
+    }
+
+    footer {
+      padding: 2rem;
+      text-align: center;
+      background-color: #f5f5f5;
+    }
+  </style>
+
+<style>
+.chatbot-modal {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 400px;
+  height: 600px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+.chat-header {
+  background-color: #eeeeee;
+  color: black;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 10px 15px;
+  overflow-y: auto;
+  background-color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bot-message {
+  background-color: #e3f2fd;
+  padding: 14px;
+  border-radius: 10px;
+  align-self: flex-start;
+  max-width: 90%;
+  font-size: 14px;
+  border: 1px solid #b3d7f3;
+}
+
+.user-message {
+  background-color: #c8e6c9;
+  padding: 10px;
+  border-radius: 10px;
+  align-self: flex-end;
+  max-width: 90%;
+}
+
+.button-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-btn {
+  background-color: #fefefe;
+  padding: 12px 16px;
+  font-weight: bold;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.option-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ccc;
+  padding: 10px;
+  background-color: white;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  font-size: 14px;
+}
+
+.chat-input button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #2196F3;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 8px;
+  font-size: 14px;
+}
+</style>
+
+
+<style>
+.chatbot-modal {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 400px;
+  height: 600px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+.chat-header {
+  background-color: #eeeeee;
+  color: black;
+  padding: 14px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 10px 15px;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bot-message {
+  background-color: #e3f2fd;
+  padding: 12px;
+  border-radius: 10px;
+  align-self: flex-start;
+  max-width: 90%;
+  font-size: 14px;
+  border: 1px solid #b3d7f3;
+}
+
+.user-message {
+  background-color: #c8e6c9;
+  padding: 10px;
+  border-radius: 10px;
+  align-self: flex-end;
+  max-width: 90%;
+}
+
+.button-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-btn {
+  background-color: #fff;
+  padding: 12px 16px;
+  font-weight: bold;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.option-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ccc;
+  padding: 10px;
+  background-color: white;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  font-size: 14px;
+}
+
+.chat-input button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #2196F3;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 8px;
+  font-size: 14px;
+}
+</style>
+
+
+<style>
+.option-btn {
+  background-color: #fff;
+  padding: 14px 20px;
+  font-weight: bold;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  width: 100%;
+  white-space: normal;
+  word-wrap: break-word;
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <header>
+    <div class="help-snapshot">
+      <button id="help-btn" onclick="document.getElementById('chatbot').style.display='flex'">Help</button>
+      <button id="snapshot-btn">Take Snapshot</button>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#design">Design Your City</a></li>
+        <li><a href="#about">About & Rules</a></li>
+        <li><a href="#icons">Icons Guide</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <video autoplay muted loop id="hero-video">
+      <source src="C:\Users\hp\Desktop\google\city-background.mp4.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="hero-content">
+      <h1>Future Ready City Planner</h1>
+      <p>Design sustainable cities of tomorrow</p>
+      <a href="#" class="cta-button" id="launchBuilder">Design Your City</a>
+    </div>
+  </section>
+
+  <iframe id="builder-frame" src="builder.html" style="display:none;"></iframe>
+
+  <footer>
+    <p>© 2023 Future Ready City Planner | Designed for sustainable urban development</p>
+  </footer>
+<script>
+  document.getElementById("launchBuilder").addEventListener("click", function(e) {
+    e.preventDefault();
+    // Hide main page elements
+    document.querySelector(".hero").style.display = "none";
+    document.querySelector("header").style.display = "none";
+    document.querySelector("footer").style.display = "none";
+    // Show builder
+    document.getElementById("builder-frame").style.display = "block";
+    // Resize iframe to full viewport
+    document.getElementById("builder-frame").style.width = "100vw";
+    document.getElementById("builder-frame").style.height = "100vh";
+    // Reload the builder to ensure clean state
+    document.getElementById("builder-frame").src = "builder.html";
+  });
+</script>
+
+<style>
+.chat-container {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 400px;
+  height: 500px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 1000;
+  overflow: hidden;
+}
+.chat-header {
+  background: #4CAF50;
+  color: white;
+  padding: 15px;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+}
+.chat-header button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: none;
+  color: white;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+.chat-messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+}
+.message {
+  margin: 10px 0;
+}
+.bot-message {
+  background-color: #e3f2fd;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 80%;
+}
+.user-message {
+  background-color: #c8e6c9;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 80%;
+  align-self: flex-end;
+}
+.chat-input {
+  display: flex;
+  padding: 10px;
+  background-color: white;
+  border-top: 1px solid #ccc;
+}
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.chat-input button {
+  padding: 10px 15px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 4px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.button-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+.option-btn {
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 6px;
+}
+</style>
+
+<div class="chat-container" id="chatbot">
+  <div class="chat-header">
+    Smart City Assistant 🤖
+    <button onclick="document.getElementById('chatbot').style.display='none'">×</button>
+  </div>
+  <div class="chat-messages" id="chat">
+    <div class="message bot-message">Hi! Please choose one of the options below or type your question.</div>
+    <div class="button-options" id="buttonOptions">
+      <button class="option-btn" onclick="selectOption('what\'s the traffic status in downtown?')">🚗 What's the traffic status in downtown?</button>
+      <button class="option-btn" onclick="selectOption('is there any power outage?')">⚡ Is there any power outage?</button>
+      <button class="option-btn" onclick="selectOption('what\'s the air quality like today?')">🌫️ What's the air quality like today?</button>
+      <button class="option-btn" onclick="selectOption('is the factory emitting smoke?')">🏭 Is the factory emitting smoke?</button>
+      <button class="option-btn" onclick="selectOption('how can i contact support?')">📞 How can I contact support?</button>
+    </div>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="userInput" placeholder="Type your query here..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+const botResponses = {
+  "what's the traffic status in downtown?": "Moderate traffic in downtown; expect a 10-minute delay.",
+  "is there any power outage?": "No outages reported in your area.",
+  "what's the air quality like today?": "Air Quality Index is 42 (Good).",
+  "where is the nearest charging station?": "The closest EV charging station is on 5th Avenue, near Central Park.",
+  "how much energy is the city using?": "Current city-wide energy usage is 58% of capacity.",
+  "is the factory emitting smoke?": "Yes, Factory 3 reported excess emissions.",
+  "how can i contact support?": "Call 1800-ROBOT or email support@smartcity.ai",
+};
+
+function sendMessage() {
+  const input = document.getElementById('userInput');
+  const text = input.value.trim().toLowerCase();
+  if (text) {
+    addMessage(text, 'user');
+    input.value = '';
+    respondToUser(text);
+  }
+}
+
+function selectOption(text) {
+  addMessage(text, 'user');
+  respondToUser(text.toLowerCase());
+}
+
+function addMessage(text, sender) {
+  const chat = document.getElementById('chat');
+  const msgDiv = document.createElement('div');
+  msgDiv.className = 'message ' + (sender === 'bot' ? 'bot-message' : 'user-message');
+  msgDiv.textContent = (sender === 'bot' ? '🤖' : 'You') + ': ' + text;
+  chat.appendChild(msgDiv);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function respondToUser(text) {
+  setTimeout(() => {
+    const response = botResponses[text] || "Sorry, I don't have information on that right now.";
+    addMessage(response, 'bot');
+  }, 500);
+}
+</script>
+
+
+<script>
+document.getElementById("snapshot-btn").addEventListener("click", function () {
+  html2canvas(document.body).then(function(canvas) {
+    const link = document.createElement("a");
+    link.download = "city-planner-snapshot.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+});
+</script>
+
+
+<section id="about" class="about-content" style="padding: 2rem;">
+  <h2>🏙️ About Future Ready City Planner</h2>
+  <p>
+    The Future Ready City Planner is a next-generation urban planning simulation tool designed to empower students, professionals, and visionaries in creating smart, sustainable, and resilient cities.
+    By combining interactive tools, real-time feedback, and immersive 3D environments, this platform offers a practical approach to solving urban challenges.
+    Whether you're allocating zones, managing resources, or visualizing growth, our planner helps turn ideas into intelligent city designs.
+  </p>
+
+  <h3>📜 City Planning Rules & Guidelines</h3>
+  <ul>
+    <li><strong>Green Space Accessibility:</strong> Every residential zone must be within 500 meters of a public park or green area.</li>
+    <li><strong>Minimum Park Coverage:</strong> At least 15% of your total city area should be dedicated to parks and natural landscapes.</li>
+    <li><strong>Public Transportation Reach:</strong> Ensure 90% of the population has access to public transit within walking distance.</li>
+    <li><strong>Mixed-Use Development:</strong> Encourage neighborhoods that combine residential, commercial, and recreational areas for better walkability.</li>
+    <li><strong>Sustainable Energy:</strong> Your city must derive at least 40% of its energy from renewable sources like solar, wind, or hydro.</li>
+    <li><strong>Pollution Control:</strong> Industrial zones must be placed away from residential areas and close to pollution management facilities.</li>
+    <li><strong>Emergency Infrastructure:</strong> Hospitals and emergency services must be evenly distributed and accessible across all major zones.</li>
+  </ul>
+</section>
+
+<section id="icons" class="icons-guide" style="padding: 2rem;">
+  <h2>🧭 City Planning Icons Guide</h2>
+  <div class="icon-grid">
+    <div class="icon-item"><img src="C:\Users\hp\Desktop\chatgpt\images\home.png" alt="Home"><p>Home Base</p></div>
+    <div class="icon-item"><img src="C:\Users\hp\Desktop\chatgpt\images\factory.png" alt="Factory"><p>Industrial Zone</p></div>
+    <div class="icon-item"><img src="C:\Users\hp\Desktop\chatgpt\images\park.png" alt="Park"><p>Parks and Recreation</p></div>
+    <div class="icon-item"><img src="C:\Users\hp\Desktop\chatgpt\images\road.png" alt="Road"><p>Road Network</p></div>
+    <div class="icon-item"><img src="C:\Users\hp\Desktop\chatgpt\images\urban.png" alt="Urban"><p>Urban Area</p></div>
+    <div class="icon-item"><img src="C:\Users\hp\Desktop\chatgpt\images\rural.png" alt="Rural"><p>Rural Area</p></div>
+    <div class="icon-item"><img src="C:\Users\hp\Desktop\chatgpt\images\iotbot.png" alt="IoT Bot"><p>IoT Bot Assistant</p></div>
+  </div>
+</section>
+
+</body>
+</html>

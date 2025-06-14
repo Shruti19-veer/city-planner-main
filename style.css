@@ -1,0 +1,294 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: sans-serif;
+  position: relative;
+}
+/* Ensure dropdown stays on top */
+#ui {
+  z-index: 1000;
+}
+#ui {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 10px;
+  border-radius: 10px;
+  z-index: 10;
+  max-width: 500px;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  padding: 6px 0;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.horizontal-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin: 10px 0;
+}
+#building-buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 10px;
+  max-width: 100%;
+}
+
+button {
+  margin: 4px;
+  padding: 4px;
+  border: none;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  width: 60px;
+  height: 70px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+button img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-bottom: 3px;
+  object-fit: cover;
+  background-color: #f0f0f0;
+}
+
+button span {
+  display: block;
+  text-align: center;
+}
+
+button.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+button.active img {
+  background-color: white;
+}
+
+#violationDisplay {
+  margin-top: 10px;
+  font-size: 14px;
+  color: green;
+}
+
+
+/* Weather Dropdown Styles */
+#weather-container {
+  position: relative;
+  display: inline-block;
+}
+
+#weather-options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 6px;
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+#weather-options.visible {
+  display: flex;
+}
+
+.weather-option {
+  width: 60px;
+  height: 70px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.weather-option img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 3px;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+}
+
+.weather-option.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.weather-option.active img {
+  background-color: white;
+}
+
+/* Rain effect overlay */
+body.weather-rain::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('./images/weather/rain-overlay.gif') repeat;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 9999;
+  background-size: 300px auto;
+}
+
+/* Snow effect */
+body.weather-snow::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('./images/weather/snow-overlay.gif') repeat;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 9999;
+  background-size: 300px auto;
+}
+/* Score Panel Styles */
+#score-panel {
+  position: fixed;
+  left: -350px;
+  top: 70%;
+  transform: translateY(-50%);
+  width: 320px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #ccc;
+  border-radius: 0 5px 5px 0;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  transition: left 0.3s ease;
+  overflow-y: auto;
+  z-index: 1000;
+  max-height: 80vh;
+  display: block !important; /* Force visibility */
+  opacity: 1 !important;
+}
+
+#score-panel.visible {
+  left: 0;
+}
+
+.score-display {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.score-value {
+  font-size: 72px;
+  font-weight: bold;
+  color: #4CAF50;
+  line-height: 1;
+}
+
+.score-label {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.score-gauge {
+  height: 20px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.gauge-fill {
+  height: 100%;
+  background: linear-gradient(to right, #ff5e5e, #ffbb33, #4CAF50);
+  transition: width 0.5s ease;
+}
+
+.breakdown-list {
+  margin-top: 20px;
+}
+
+.breakdown-item {
+  margin-bottom: 10px;
+}
+
+.breakdown-label {
+  display: inline-block;
+  width: 120px;
+  font-weight: bold;
+}
+
+.breakdown-value {
+  display: inline-block;
+  width: 40px;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.breakdown-bar {
+  display: inline-block;
+  width: 120px;
+  height: 8px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.bar-fill {
+  height: 100%;
+  background: #4CAF50;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+}
+
+.close-btn:hover {
+  color: #333;
+}

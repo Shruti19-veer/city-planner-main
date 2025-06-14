@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>3D City Planner</title>
+  <link rel="stylesheet" href="style.css" />
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  #ui {
+    position: absolute;
+    z-index: 100;
+  }
+</style>
+ <style>
+  #iot-bot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  #iot-bot {
+    width: 100px;
+    height: auto;
+  }
+  #iot-bot-message {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    right: 0;
+    width: 220px;
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+  #iot-bot-message.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  #iot-bot-message:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 20px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid white;
+  }
+   #iot-bot-message {
+    /* ... existing styles ... */
+    max-width: 250px; /* Slightly wider for coordinates */
+    white-space: pre-wrap; /* Preserve line breaks */
+  }
+  /* Violations Panel Styles */
+#violations-panel {
+  position: fixed;
+  right: -320px;
+  top: 20px;
+  width: 300px;
+  height: 60vh;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+  padding: 10px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  transition: right 0.3s ease;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+#violations-panel.visible {
+  right: 0;
+}
+
+#violations-list {
+  list-style: none;
+  padding: 0;
+}
+
+#violations-list li {
+  padding: 8px;
+  margin: 5px 0;
+  background: rgba(255,255,255,0.7);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#violations-list li:hover {
+  background: rgba(255,200,200,0.7);
+}
+
+/* Skip button style */
+#skip-btn {
+  margin-left: 10px;
+  padding: 8px 12px;
+}
+</style>
+</head>
+<body>
+<div id="ui">
+  <div id="mode-buttons" class="button-group">
+    <button id="urbanBtn" class="active">
+      <img src="images/urban.png" alt="Urban">
+      <span>Urban</span>
+    </button>
+    <button id="ruralBtn">
+      <img src="images/rural.png" alt="Rural">
+      <span>Rural</span>
+    </button>
+    <button id="iotBtn">
+      <img src="images/iotbot.png" alt="IoTBot">
+      <span>IoTBot</span>
+     </button>
+<button id="weatherBtn">
+  <img src="images/weather/weather.png" alt="Weather">
+  <span>Weather</span>
+</button>
+</button>
+  </div>
+<div id="weatherOptions" class="button-group" style="display: none;">
+  <button class="weather-option" data-weather="auto">
+    <img src="images/weather/autocycle.png" alt="Auto">
+    <span>Auto-Cycle</span>
+  </button>
+  <button class="weather-option" data-weather="rain">
+    <img src="images/weather/rain.png" alt="Rain">
+    <span>Force Rain</span>
+  </button>
+  <button class="weather-option" data-weather="snow">
+    <img src="images/weather/snow.png" alt="Snow">
+    <span>Force Snow</span>
+  </button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+<script type="module" src="main.js"></script>
+<script>
+  // Add back button functionality
+  const backButton = document.createElement('button');
+  backButton.id = 'back-btn';
+  backButton.innerHTML = '← Back to Main';
+  backButton.style.position = 'fixed';
+  backButton.style.top = '20px';
+  backButton.style.right = '20px';
+  backButton.style.zIndex = '1000';
+  backButton.style.padding = '10px 15px';
+  backButton.style.backgroundColor = '#4CAF50';
+  backButton.style.color = 'white';
+  backButton.style.border = 'none';
+  backButton.style.borderRadius = '4px';
+  backButton.style.cursor = 'pointer';
+  
+  backButton.addEventListener('click', () => {
+    if (window.parent === window) {
+      // If not in iframe, redirect to index.html
+      window.location.href = 'index.html';
+    } else {
+      // If in iframe, tell parent to hide builder
+      window.parent.postMessage('close-builder', '*');
+    }
+  });
+  
+  document.body.appendChild(backButton);
+</script>
+</body>
+</html
